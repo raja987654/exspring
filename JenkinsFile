@@ -14,17 +14,30 @@ pipeline {
                 bat 'git clone https://github.com/raja987654/exspring.git'
             }
         }
+        stage('Build Project') {
+            steps {
+                dir('exspring') {
+                    bat 'mvn clean install'
+                }
+            }
+        }
+        stage('Verify JAR Creation') {
+            steps {
+                dir('exspring') {
+                    bat 'dir target' // Lister le contenu du dossier target
+                }
+            }
+        }
         stage('Generate Backend image') {
             steps {
-                dir('exspring') { // Ensure the directory matches the cloned repo
-                    bat 'mvn clean install'
+                dir('exspring') {
                     bat 'docker build -t docex1-spring .'
                 }
             }
         }
         stage('Run Docker Compose') {
             steps {
-                dir('exspring') { // Again, ensure the directory matches
+                dir('exspring') {
                     bat 'docker-compose up -d'
                 }
             }

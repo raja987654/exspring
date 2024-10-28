@@ -16,7 +16,7 @@ pipeline {
         }
         stage('Generate Backend image') {
             steps {
-                dir('ex2spring') { // Ensure the directory matches the cloned repo
+                dir('exspring') { // Ensure the directory matches the cloned repo
                     bat 'mvn clean install'
                     bat 'docker build -t docex1-spring .'
                 }
@@ -24,9 +24,10 @@ pipeline {
         }
         stage('Run Docker Compose') {
             steps {
-                dir('ex2spring') { // Again, ensure the directory matches
-                    bat 'docker compose up -d'
+                dir('exspring') { // Again, ensure the directory matches
+                    bat 'docker-compose up -d'
                 }
             }
         }
     }
+}
